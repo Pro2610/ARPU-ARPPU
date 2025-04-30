@@ -1,0 +1,26 @@
+SELECT 
+  country,
+  DATE_TRUNC('month', payment_date) AS month,
+  
+  COUNT(DISTINCT user_id) AS total_users,
+  
+  COUNT(DISTINCT CASE WHEN revenue_amount > 0 THEN user_id END) AS paying_users,
+  
+  SUM(revenue_amount) AS total_revenue,
+  
+  -- ARPU: середній дохід на одного користувача
+  SUM(revenue_amount) * 1.0 / COUNT(DISTINCT user_id) AS arpu,
+  
+  -- ARPPU: середній дохід на платника
+  CASE 
+    WHEN COUNT(DISTINCT CASE WHEN revenue_amount > 0 THEN user_id END) = 0 THEN NULL
+    ELSE SUM(revenue_amount) * 1.0 / COUNT(DISTINCT CASE WHEN revenue_amount > 0 THEN user_id END)
+  END AS arppu,
+  
+  -- Conversion: частка платників серед усіх користувачів
+  COUNT(DISTINCT CASE WHEN revenue_amount > 0 THEN user_id END) * 1.0 
+    / COUNT(DISTINCT user_id) AS conversion_rate
+
+FROM user_payments
+GROUP BY country, month
+ORDER BY country, month;

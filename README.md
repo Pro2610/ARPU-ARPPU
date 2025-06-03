@@ -35,3 +35,15 @@ SELECT
 FROM user_payments
 GROUP BY country, month
 ORDER BY country, month;
+
+🔧 Tools
+SQL (PostgreSQL syntax)
+
+BigQuery / PostgreSQL-compatible environment
+
+💬 Goal
+To track and compare user monetization performance across countries and time.
+This type of query is commonly used in SaaS, mobile apps, and e-commerce analytics.
+
+📬 Let's connect
+Open to feedback and ideas — feel free to fork or contribute!
